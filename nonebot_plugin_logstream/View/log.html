@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <style>
+        /* 设置页面主体文字粗细 */
+        body {
+            font-weight: 650;
+        }
+
+        /* 定义容器样式，设置宽度、居中显示，并定义圆角 */
+        .container {
+            width: 780px;
+            margin: 0 auto;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        /* 页眉样式，设置高度、背景色、对齐方式和内边距 */
+        .header {
+            height: 40px;
+            background-color: #111827;
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            padding-left: 10px;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+        }
+
+        /* 颜色行样式，设置为弹性盒子布局，元素间有间隔 */
+        .color-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* 颜色框样式，设置宽度、高度和边框圆角 */
+        .color-box {
+            width: 10px;
+            height: 10px;
+            border-radius: 100%;
+        }
+
+        /* 为颜色框指定背景色 */
+        #red { background-color: #EF4444; }
+        #yellow { background-color: #F59E0B; }
+        #green { background-color: #10B981; }
+
+        /* 内容区域样式，设置背景色、内边距、圆角、文字颜色、高度、隐藏滚动条 */
+        .content {
+            background-color: #1F2937;
+            padding: 20px;
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            color: #FFFFFF;
+            height: 300px;
+            overflow-y: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            word-break: break-word;
+            line-height: 1.4;
+            font-size: 0.8rem;
+        }
+
+        /* 隐藏Webkit内核浏览器的滚动条 */
+        .content::-webkit-scrollbar {
+            width: 0px;
+        }
+
+        /* 媒体查询，当屏幕宽度小于等于780px时，调整容器和内容区域样式 */
+        @media (max-width: 780px) {
+            .container {
+                width: 100%;
+            }
+            .content {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* 定义日志级别对应的文本颜色 */
+        .info { color: white; }
+        .success { color: #10B981; }
+        .error { color: #EF4444; }
+        .warning { color: #F59E0B; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="color-row">
+            <div id="red" class="color-box"></div>
+            <div id="yellow" class="color-box"></div>
+            <div id="green" class="color-box"></div>
+        </div>
+    </div>
+    <div class="content" id="scrolling-content">
+        <!-- 日志内容显示区域 -->
+        <div id="log-container"></div>
+    </div>
+</div>
+
+<script>
+    // 使用 EventSource 监听服务器发送的实时日志
+    var eventSource = new EventSource("/logs/sse");
+
+    // 处理接收到的消息
+    eventSource.onmessage = function(event) {
+        if (event.data !== "heartbeat") {
+            var logContainer = document.getElementById('log-container');
+            var newLog = document.createElement('p');
+            newLog.innerHTML = event.data;  // 使用 innerHTML 来保留 HTML 格式
+            logContainer.appendChild(newLog);
+            scrollToBottom();  // 滚动到底部
+        }
+    };
+
+    // 自动滚动到底部的函数
+    function scrollToBottom() {
+        var logContainer = document.getElementById('scrolling-content');
+        logContainer.scrollTop = logContainer.scrollHeight;
+    }
+
+    // 页面加载时自动滚动到底部
+    scrollToBottom();
+
+    // 处理错误情况，尝试重新连接
+    eventSource.onerror = function(event) {
+        console.error('EventSource failed:', event);
+        eventSource.close();
+        setTimeout(function() {
+            var newEventSource = new EventSource("/logs/sse");
+            newEventSource.onmessage = eventSource.onmessage;
+            newEventSource.onerror = eventSource.onerror;
+        }, 5000);  // 5秒后尝试重新连接
+    };
+</script>
+</body>
+</html>
