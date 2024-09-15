@@ -28,3 +28,14 @@ _✨ 基于SSE(Server-Sent Events) ✨_
 
 - 运行Nonebot实例
 - 浏览器访问 http://127.0.0.1:你的Nonebot端口/logs/sse
+
+# 贡献与支持
+
+如果觉得此项目还有点用处请点个 `Star`谢谢喵
+
+有意见或者建议欢迎提交 [Issues](https://github.com/KiKi-XC/nonebot_plugin_logstream/issues)
+和 [Pull requests](https://github.com/KiKi-XC/nonebot_plugin_logstream/pulls)。
+
+# 许可证
+
+本项目使用 [MIT](./LICENSE) 作为开源许可证。
