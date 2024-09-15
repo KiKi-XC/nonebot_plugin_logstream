@@ -36,6 +36,7 @@ _✨ 基于SSE(Server-Sent Events) ✨_
 有意见或者建议欢迎提交 [Issues](https://github.com/KiKi-XC/nonebot_plugin_logstream/issues)
 和 [Pull requests](https://github.com/KiKi-XC/nonebot_plugin_logstream/pulls)。
 
+KiKi-XC的第一个Nonebot插件,有代码不规范的地方,欢迎PR和指正!
 # 许可证
 
 本项目使用 [MIT](./LICENSE) 作为开源许可证。
