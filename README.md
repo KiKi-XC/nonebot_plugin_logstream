@@ -18,6 +18,9 @@ _✨ 基于SSE(Server-Sent Events) ✨_
 </p>
 
 # 使用方式
+在Nonebot项目的pyproject.toml文件plugins字样添加`nonebot_plugin_logstream`
+
+或者pull项目到Nonebot插件目录
 
 查看实时log网页:
 

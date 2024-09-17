@@ -16,6 +16,7 @@ __plugin_meta__ = PluginMetadata(
     usage="详见文档",
     type="application",
     homepage="https://github.com/KiKi-XC/nonebot_plugin_logstream",
+    supported_adapters='none'
 )
 
 # 初始化FastAPI应用
